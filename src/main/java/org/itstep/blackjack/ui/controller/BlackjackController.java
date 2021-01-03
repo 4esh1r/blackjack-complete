@@ -1,4 +1,4 @@
-package org.itstep.ui.controller;
+package org.itstep.blackjack.ui.controller;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -12,9 +12,6 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import org.itstep.blackjack.Game;
 import org.itstep.blackjack.NoMoneyEnough;
-import org.itstep.blackjack.card.Card;
-import org.itstep.blackjack.event.GameEventListener;
-import org.itstep.ui.CardView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -57,49 +54,8 @@ public class BlackjackController implements Initializable {
         lblDealer.setText("Dealer: " + points);
     }
 
-    private class GameEventHandler implements GameEventListener{
-
-        @Override
-        public void gameStart() {
-            restart();
-        }
-
-        @Override
-        public void stand() {
-            stop();
-            CardView node = (CardView) hbDealerCards.getChildren().get(0);
-            node.setHide(false);
-        }
-
-        @Override
-        public void playerGetCard(Card card, int points) {
-            hbPlayerCards.getChildren().add(new CardView(card));
-            updatePlayerPoints(points);
-        }
-
-        @Override
-        public void dealerGetCard(Card card, int points) {
-            hbDealerCards.getChildren().add(new CardView(card));
-            updateDealerPoints(points);
-        }
-
-        @Override
-        public void gameOver(String winner, int playerPoints, int dealerPoints) {
-            stand();
-            updatePlayerPoints(playerPoints);
-            updateDealerPoints(dealerPoints);
-            lblBlackJack.setText(winner + "WIN");
-        }
-
-        @Override
-        public void playerSetBet(int amount) {
-
-        }
-    }
-
     public BlackjackController() {
         game = new Game();
-        game.addEventListener(new GameEventHandler());
     }
 
     @FXML
